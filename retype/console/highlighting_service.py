@@ -93,6 +93,7 @@ class HighlightingService(object):
             self.wrong = False
             self.wrong_start = None
             self.wrong_end = None
+            self.last_wrong_text_length = 0
             v.mistake_cursor.setPosition(v.cursor_pos)
             return
 
