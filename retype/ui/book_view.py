@@ -711,6 +711,11 @@ class BookView(QWidget):
             logger.error('markComplete: self.book is None')
         self.updateModeline()
 
+    def recordMistake(self):
+        # type: (BookView) -> None
+        self.stats_dock.mistakes += 1
+        self.stats_dock.update()
+
 
 if TYPE_CHECKING:
     from qt import (  # noqa: F401

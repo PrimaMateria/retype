@@ -32,6 +32,7 @@ class HighlightingService(object):
         self.wrong_start = None  # type: int | None
         self.wrong_end = None  # type: int | None
         self.wrong_text = ""
+        self.last_wrong_text_length = 0 # type: int
 
     def valid(self, v):
         # type: (HighlightingService, BookView) -> bool
@@ -95,10 +96,19 @@ class HighlightingService(object):
             v.mistake_cursor.setPosition(v.cursor_pos)
             return
 
+        # If the wrong text grows then user is doing mistakes and not removing
+        # them. Record the mistake to the stats.
+        current_wrong_text_length = len(self.wrong_text)
+        adding_mistake = current_wrong_text_length > self.last_wrong_text_length
+
+        if adding_mistake:
+            v.recordMistake()
+
         self.wrong = True
         v.mistake_cursor.setPosition(self.wrong_start)
         self._insertWrongText(v, v.mistake_cursor.position(), self.wrong_text)
         self.wrong_end = self.wrong_start + len(self.wrong_text)
+        self.last_wrong_text_length = len(self.wrong_text)
 
     def _insertWrongText(self, v, pre_pos, text):
         # type: (HighlightingService, BookView, int, str) -> None

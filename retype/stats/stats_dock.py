@@ -19,6 +19,7 @@ class StatsDock(QWidget):
 
         self.connected = False
 
+        self.mistakes = 0 # type: int
         self.prev_cursor_pos = 0
         self.prev_seconds = 0
         self.prev_ts = 0
@@ -138,8 +139,13 @@ class StatsDock(QWidget):
         font_h = ceil(fm.height())
         pb_txt = "PB: {}".format(self.wpm_pb)
         cur_txt = "Current: {} WPM".format(self.wpm)
+        mis_txt = "Mistakes: {}".format(self.mistakes)
         draw(2, 2,
              textPixmap(pb_txt, ceil(fm.horizontalAdvance(pb_txt)), font_h,
+                        font, self.text_c.fg()))
+
+        draw(2, 2 + font_h + 2,
+             textPixmap(mis_txt, ceil(fm.horizontalAdvance(mis_txt)), font_h,
                         font, self.text_c.fg()))
         cur_w = ceil(fm.horizontalAdvance(cur_txt))
         draw(w - cur_w - 2, 2,
