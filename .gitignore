@@ -5,3 +5,5 @@ build
 dist
 builddate.txt
 *.egg-info
+.pyqt5-stubs-dir
+typings/PyQt5

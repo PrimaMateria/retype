@@ -1,0 +1,9 @@
+{
+  "stubPath": "typings",
+  "exclude": [
+    ".pyqt5-stubs-dir",
+    "typings",
+    "dist"
+  ],
+  "typeCheckingMode": "basic"
+}

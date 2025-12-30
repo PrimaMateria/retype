@@ -17,6 +17,8 @@
       packages = [
         (py.withPackages (ps:
           with ps; [
+            pip
+
             pyqt5
             ebooklib
             tinycss2
@@ -49,6 +51,13 @@
 
         echo "QT_PLUGIN_PATH=$QT_PLUGIN_PATH"
         echo "QML2_IMPORT_PATH=$QML2_IMPORT_PATH"
+
+        # pyqt stubs for pyright
+        rm -rf .pyqt5-stubs-dir typings
+        pip install --target=.pyqt5-stubs-dir PyQt5-stubs
+        mkdir -p typings/PyQt5
+        cp -r .pyqt5-stubs-dir/PyQt5-stubs/* typings/PyQt5/
+        touch typings/PyQt5/py.typed
 
         echo "Python: $(python --version)"
         echo "PyQt5 available: $(python -c 'import PyQt5; print(PyQt5.__file__)')"
