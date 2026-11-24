@@ -57,6 +57,15 @@ import PyQt5
 pyqt5_pkg = PyQt5.__path__[0]
 datas += [Tree(pyqt5_pkg, prefix="PyQt5")]
 
+# Ensure PyQt5.sip is bundled (it can live outside PyQt5 dir on Nix)
+try:
+    import PyQt5.sip as _sip
+    sip_dir = os.path.dirname(_sip.__file__)
+    datas += [Tree(sip_dir, prefix="PyQt5")]
+    hidden += ["PyQt5.sip"]
+except Exception as e:
+    print("Warning: could not import PyQt5.sip during build:", e)
+
 qt_plugins = os.environ.get("QT_PLUGIN_PATH")
 if qt_plugins:
     datas += [Tree(qt_plugins, prefix="PyQt5/Qt5/plugins")]

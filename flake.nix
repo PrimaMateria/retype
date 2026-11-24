@@ -18,6 +18,7 @@
         (py.withPackages (ps:
           with ps; [
             pyqt5
+            pyqt5-sip
             ebooklib
             tinycss2
 
@@ -33,6 +34,15 @@
       ];
 
       shellHook = ''
+        # WSL
+        unset name
+        export DISPLAY=:1
+
+        # Make sure system python doesn't interfere
+        export PYTHONNOUSERSITE=1
+        unset PYTHONPATH
+        hash -r
+
         # Real Qt paths from Nix store (no qtpaths/qmake metadata involved)
         export QT_PLUGIN_PATH="$(ls -d ${qt.qt5.qtbase}/lib/qt-*/plugins | head -n1)"
 
